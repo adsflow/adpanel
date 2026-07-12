@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ScaleAdsFlow — Google Ads API Design Document</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px;
+      color: #1a1a2e;
+      background: #fff;
+      padding: 48px 64px;
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    .header {
+      border-bottom: 3px solid #6C63FF;
+      padding-bottom: 20px;
+      margin-bottom: 32px;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1a1a2e;
+    }
+    .logo span { color: #6C63FF; }
+    .doc-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #6C63FF;
+      margin-top: 6px;
+    }
+    .meta-info {
+      margin-top: 8px;
+      color: #666;
+      font-size: 12px;
+    }
+    h1 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin: 28px 0 10px;
+      padding-left: 12px;
+      border-left: 4px solid #6C63FF;
+    }
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #6C63FF;
+      margin: 18px 0 8px;
+    }
+    p { margin-bottom: 10px; color: #333; }
+    ul { padding-left: 20px; margin-bottom: 10px; }
+    li { margin-bottom: 5px; color: #333; }
+    .section {
+      background: #f8f8ff;
+      border: 1px solid #e0e0f0;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 12px;
+    }
+    th {
+      background: #6C63FF;
+      color: #fff;
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+    }
+    td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #e8e8f0;
+    }
+    tr:nth-child(even) td { background: #f4f4fc; }
+    .flow-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 12px 0;
+    }
+    .flow-step {
+      background: #6C63FF;
+      color: #fff;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .flow-arrow { color: #6C63FF; font-size: 18px; font-weight: bold; }
+    .badge {
+      display: inline-block;
+      background: #e8e8ff;
+      color: #6C63FF;
+      padding: 2px 10px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .footer {
+      margin-top: 40px;
+      padding-top: 16px;
+      border-top: 1px solid #e0e0f0;
+      color: #999;
+      font-size: 11px;
+      text-align: center;
+    }
+    @media print {
+      body { padding: 24px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">Scale<span>Ads</span>Flow</div>
+    <div class="doc-title">Google Ads API — Tool Design Document</div>
+    <div class="meta-info">
+      Company: ScaleAdsFlow &nbsp;|&nbsp;
+      Website: scaleadsflow.com &nbsp;|&nbsp;
+      Contact: marketing@scaleadsflow.com &nbsp;|&nbsp;
+      MCC ID: 930-696-8254 &nbsp;|&nbsp;
+      Date: June 2025
+    </div>
+  </div>
+
+  <!-- 1. COMPANY OVERVIEW -->
+  <h1>1. Company Overview</h1>
+  <div class="section">
+    <p>
+      ScaleAdsFlow is a performance-focused digital marketing agency based in Turkey. We specialize in
+      managing and optimizing Meta (Facebook/Instagram) and Google Ads campaigns on behalf of our clients —
+      small-to-medium businesses across e-commerce, healthcare, real estate, and service industries.
+    </p>
+    <p>
+      Our agency operates under a Manager Account (MCC ID: 930-696-8254), through which we manage
+      multiple client ad accounts. We have developed an internal campaign management platform — the
+      ScaleAdsFlow AdPanel — to streamline operations, centralize reporting, and improve client transparency.
+    </p>
+  </div>
+
+  <!-- 2. TOOL DESCRIPTION -->
+  <h1>2. Tool Description — ScaleAdsFlow AdPanel</h1>
+  <div class="section">
+    <p>
+      The ScaleAdsFlow AdPanel is an internal web application built specifically for our agency's operations.
+      It is not a publicly distributed software product. The tool is used exclusively by our agency team
+      and provides a read-only client portal for our end clients.
+    </p>
+    <h2>Core Modules</h2>
+    <table>
+      <tr><th>Module</th><th>Description</th><th>API Usage</th></tr>
+      <tr><td>Campaign Dashboard</td><td>Unified view of all client campaigns across Google and Meta</td><td>Read</td></tr>
+      <tr><td>Campaign Management</td><td>Create, pause, resume, and adjust budgets for campaigns</td><td>Read + Write</td></tr>
+      <tr><td>Performance Reporting</td><td>Pull metrics: impressions, clicks, conversions, ROAS, CPA</td><td>Read</td></tr>
+      <tr><td>Client Portal</td><td>Read-only dashboard for end clients to view their campaign results</td><td>Read</td></tr>
+      <tr><td>Budget Pacing</td><td>Track monthly spend pacing per client account</td><td>Read</td></tr>
+      <tr><td>Alert System</td><td>Automated alerts for disapproved ads, budget overruns, CTR drops</td><td>Read</td></tr>
+    </table>
+  </div>
+
+  <!-- 3. HOW THE API IS USED -->
+  <h1>3. How the Google Ads API Is Used</h1>
+  <div class="section">
+    <h2>Authentication Flow</h2>
+    <div class="flow-box">
+      <div class="flow-step">Agency Login</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">OAuth 2.0 (Google)</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">MCC Access Token</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Client Account Linked</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">API Calls Executed</div>
+    </div>
+
+    <h2>API Endpoints Used</h2>
+    <table>
+      <tr><th>Service</th><th>Purpose</th><th>Access Type</th></tr>
+      <tr><td>CampaignService</td><td>List, create, update, pause campaigns</td><td>Read / Write</td></tr>
+      <tr><td>AdGroupService</td><td>Manage ad groups within campaigns</td><td>Read / Write</td></tr>
+      <tr><td>AdService</td><td>Create and manage ads within ad groups</td><td>Read / Write</td></tr>
+      <tr><td>GoogleAdsService (GAQL)</td><td>Query performance metrics via Google Ads Query Language</td><td>Read</td></tr>
+      <tr><td>BudgetService</td><td>Read and update campaign budgets</td><td>Read / Write</td></tr>
+      <tr><td>CustomerService</td><td>List accessible customer accounts under MCC</td><td>Read</td></tr>
+    </table>
+
+    <h2>Data Access Scope</h2>
+    <ul>
+      <li>All API calls are made under our agency MCC account (930-696-8254)</li>
+      <li>Client accounts are linked to the MCC via standard Google Ads manager linking</li>
+      <li>We only access accounts that have explicitly granted our MCC management access</li>
+      <li>No data is sold, shared, or transferred to third parties</li>
+      <li>All access tokens are stored encrypted in our database</li>
+    </ul>
+  </div>
+
+  <!-- 4. USER ACCESS LEVELS -->
+  <h1>4. User Access Levels</h1>
+  <div class="section">
+    <table>
+      <tr><th>User Type</th><th>Access</th><th>Google Ads API</th></tr>
+      <tr>
+        <td><span class="badge">Admin</span> Agency Owner</td>
+        <td>Full platform access — all clients, all campaigns</td>
+        <td>Read + Write via MCC</td>
+      </tr>
+      <tr>
+        <td><span class="badge">Manager</span> Account Manager</td>
+        <td>Assigned clients only — campaign management</td>
+        <td>Read + Write (assigned accounts only)</td>
+      </tr>
+      <tr>
+        <td><span class="badge">Client</span> End Client</td>
+        <td>Read-only portal — their own data only</td>
+        <td>None (data pre-fetched by agency)</td>
+      </tr>
+    </table>
+    <p>
+      End clients never interact with the Google Ads API directly. All API calls are made server-side
+      by our agency team's application. Clients only see pre-processed, read-only reports in their portal.
+    </p>
+  </div>
+
+  <!-- 5. DATA FLOW -->
+  <h1>5. Data Flow Architecture</h1>
+  <div class="section">
+    <h2>Campaign Data Sync</h2>
+    <div class="flow-box">
+      <div class="flow-step">Google Ads API</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">ScaleAdsFlow Server</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">MySQL Database</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Agency Dashboard</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Client Portal</div>
+    </div>
+
+    <h2>Campaign Management Flow</h2>
+    <div class="flow-box">
+      <div class="flow-step">Agency User Action</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">AdPanel UI</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Server Validates</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Google Ads API Write</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Confirmation</div>
+    </div>
+
+    <h2>Data Storage Policy</h2>
+    <ul>
+      <li>Campaign performance data is synced and cached in our database every hour</li>
+      <li>OAuth access tokens are stored encrypted using AES-256</li>
+      <li>No raw Google Ads data is exposed to end clients — only aggregated metrics</li>
+      <li>Data is retained for 24 months for historical reporting purposes</li>
+    </ul>
+  </div>
+
+  <!-- 6. SECURITY -->
+  <h1>6. Security Measures</h1>
+  <div class="section">
+    <ul>
+      <li>All API credentials (OAuth tokens, developer token) stored in encrypted environment variables</li>
+      <li>Server-to-API communication over HTTPS/TLS only</li>
+      <li>Role-based access control — agency users cannot access other clients' data</li>
+      <li>MFA enforced for all agency admin accounts</li>
+      <li>OAuth tokens refreshed automatically before expiry</li>
+      <li>Access tokens revocable at any time from the platform settings</li>
+      <li>Full audit log of all API write operations (create, update, pause campaigns)</li>
+      <li>No client-side exposure of API credentials or raw tokens</li>
+    </ul>
+  </div>
+
+  <!-- 7. COMPLIANCE -->
+  <h1>7. Policy Compliance</h1>
+  <div class="section">
+    <ul>
+      <li>All usage is strictly within the Google Ads API Terms of Service and Program Policies</li>
+      <li>API access is used solely for managing ad campaigns on behalf of clients who have explicitly granted our MCC access</li>
+      <li>We do not resell, distribute, or white-label access to the API itself</li>
+      <li>We do not use the API for scraping, competitive intelligence, or unauthorized data collection</li>
+      <li>Privacy Policy published at: <strong>https://scaleadsflow.com/privacy-policy.html</strong></li>
+    </ul>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    ScaleAdsFlow &nbsp;|&nbsp; scaleadsflow.com &nbsp;|&nbsp; marketing@scaleadsflow.com &nbsp;|&nbsp; MCC: 930-696-8254
+    <br />Confidential — Prepared for Google Ads API Basic Access Application
+  </div>
+
+</body>
+</html>

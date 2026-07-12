@@ -1,0 +1,189 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 2);
+}
+
+/* ─────────────────────────────────────────────────────────
+   Design System — ScaleAdsFlow
+   Palette: Deep graphite base, cool-neutral surface layers,
+   electric indigo primary, precise OKLCH for perceptual
+   uniformity across the entire scale.
+   ───────────────────────────────────────────────────────── */
+:root {
+  /* Base layers — slightly warm-neutral graphite, not pure black */
+  --background:        oklch(0.095 0.010 264);   /* #0d0e12 equivalent */
+  --foreground:        oklch(0.940 0.008 264);   /* near-white, soft */
+
+  /* Surfaces — three distinct elevation levels */
+  --card:              oklch(0.130 0.012 264);   /* card / panel */
+  --card-foreground:   oklch(0.940 0.008 264);
+  --popover:           oklch(0.155 0.013 264);   /* dropdown / tooltip */
+  --popover-foreground:oklch(0.940 0.008 264);
+
+  /* Primary — electric indigo, high contrast on dark */
+  --primary:           oklch(0.620 0.220 268);   /* vivid violet-blue */
+  --primary-foreground:oklch(0.990 0.000 0);
+
+  /* Secondary / muted surfaces */
+  --secondary:         oklch(0.175 0.014 264);
+  --secondary-foreground:oklch(0.880 0.010 264);
+  --muted:             oklch(0.160 0.012 264);
+  --muted-foreground:  oklch(0.520 0.015 264);   /* readable but recessed */
+  --accent:            oklch(0.185 0.016 264);
+  --accent-foreground: oklch(0.940 0.008 264);
+
+  /* Semantic */
+  --destructive:       oklch(0.630 0.220 22);    /* warm red */
+  --success:           oklch(0.640 0.170 152);   /* emerald */
+  --warning:           oklch(0.760 0.165 72);    /* amber */
+
+  /* Borders & inputs — subtle but visible */
+  --border:            oklch(1 0 0 / 7%);
+  --border-strong:     oklch(1 0 0 / 12%);
+  --input:             oklch(1 0 0 / 8%);
+  --ring:              oklch(0.620 0.220 268);
+
+  /* Charts — perceptually distinct on dark backgrounds */
+  --chart-1:           oklch(0.620 0.220 268);   /* indigo — primary */
+  --chart-2:           oklch(0.680 0.170 210);   /* cyan-blue */
+  --chart-3:           oklch(0.640 0.170 152);   /* emerald */
+  --chart-4:           oklch(0.760 0.165 72);    /* amber */
+  --chart-5:           oklch(0.650 0.210 22);    /* coral-red */
+
+  /* Radius — slightly tighter for professional density */
+  --radius: 0.625rem;
+
+  /* Sidebar — one step darker than background for clear separation */
+  --sidebar:                  oklch(0.080 0.010 264);
+  --sidebar-foreground:       oklch(0.940 0.008 264);
+  --sidebar-primary:          oklch(0.620 0.220 268);
+  --sidebar-primary-foreground:oklch(0.990 0.000 0);
+  --sidebar-accent:           oklch(0.155 0.013 264);
+  --sidebar-accent-foreground:oklch(0.940 0.008 264);
+  --sidebar-border:           oklch(1 0 0 / 6%);
+  --sidebar-ring:             oklch(0.620 0.220 268);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  html {
+    @apply font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Scrollbar — consistent, unobtrusive */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(1 0 0 / 12%);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(1 0 0 / 20%);
+  }
+
+  /* Focus ring — only for keyboard navigation */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+/* ─── Utility layer ─────────────────────────────────────── */
+@layer utilities {
+  /* Frosted glass surface — used for overlay panels */
+  .surface-glass {
+    background: oklch(0.130 0.012 264 / 80%);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+  }
+
+  /* Glow accent — subtle primary color glow for active states */
+  .glow-primary {
+    box-shadow: 0 0 0 1px oklch(0.620 0.220 268 / 30%),
+                0 4px 24px oklch(0.620 0.220 268 / 12%);
+  }
+
+  /* Stat card shimmer border */
+  .border-shimmer {
+    border: 1px solid oklch(1 0 0 / 7%);
+    box-shadow: inset 0 1px 0 oklch(1 0 0 / 6%);
+  }
+
+  /* Inset top highlight — gives cards depth on dark bg */
+  .inset-highlight {
+    box-shadow: inset 0 1px 0 oklch(1 0 0 / 6%),
+                0 1px 3px oklch(0 0 0 / 40%);
+  }
+
+  /* Status dot */
+  .status-dot {
+    @apply inline-block w-1.5 h-1.5 rounded-full;
+  }
+
+  /* Truncate with ellipsis — for table cells */
+  .cell-truncate {
+    @apply max-w-[180px] truncate;
+  }
+}

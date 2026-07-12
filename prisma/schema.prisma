@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// Agency users (admin panel)
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clients Client[]
+}
+
+// Clients managed by the agency
+model Client {
+  id          String   @id @default(cuid())
+  name        String
+  email       String?
+  phone       String?
+  industry    String?
+  website     String?
+  logoUrl     String?
+  portalEmail String?  @unique
+  portalPassword String?
+  status      ClientStatus @default(ACTIVE)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  metaAccounts   MetaAccount[]
+  googleAccounts GoogleAccount[]
+  campaigns      Campaign[]
+}
+
+// Meta Ads account connection
+model MetaAccount {
+  id            String   @id @default(cuid())
+  adAccountId   String
+  adAccountName String?
+  accessToken   String   @db.Text
+  tokenExpiry   DateTime?
+  businessId    String?
+  status        ConnectionStatus @default(ACTIVE)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  clientId      String
+  client        Client   @relation(fields: [clientId], references: [id])
+
+  @@unique([clientId, adAccountId])
+}
+
+// Google Ads account connection
+model GoogleAccount {
+  id              String   @id @default(cuid())
+  customerId      String
+  customerName    String?
+  accessToken     String   @db.Text
+  refreshToken    String   @db.Text
+  tokenExpiry     DateTime?
+  status          ConnectionStatus @default(ACTIVE)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  clientId        String
+  client          Client   @relation(fields: [clientId], references: [id])
+
+  @@unique([clientId, customerId])
+}
+
+// Campaigns (synced from Meta/Google)
+model Campaign {
+  id           String   @id @default(cuid())
+  externalId   String
+  name         String
+  platform     Platform
+  status       CampaignStatus
+  budget       Float?
+  spend        Float?   @default(0)
+  impressions  Int?     @default(0)
+  clicks       Int?     @default(0)
+  conversions  Int?     @default(0)
+  roas         Float?
+  startDate    DateTime?
+  endDate      DateTime?
+  syncedAt     DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  clientId     String
+  client       Client   @relation(fields: [clientId], references: [id])
+
+  @@unique([clientId, platform, externalId])
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+}
+
+enum ClientStatus {
+  ACTIVE
+  INACTIVE
+  PAUSED
+}
+
+enum ConnectionStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+enum Platform {
+  META
+  GOOGLE
+}
+
+enum CampaignStatus {
+  ACTIVE
+  PAUSED
+  COMPLETED
+  DRAFT
+}
