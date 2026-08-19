@@ -1,4 +1,5 @@
 import NextAuth, { type DefaultSession } from "next-auth";
+import { authConfig } from "@/auth.config";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
@@ -42,6 +43,7 @@ const credentialsSchema = z.object({
 // NextAuth v5 configuration
 // ---------------------------------------------------------------------------
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
   providers: [
     Credentials({
       credentials: {
@@ -102,34 +104,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
-
-  callbacks: {
-    // Persist `id` and `role` into the JWT token on first sign-in
-    jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.role = user.role ?? "ADMIN";
-      }
-      return token;
-    },
-
-    // Expose `id` and `role` on the session object available in the app
-    session({ session, token }) {
-      if (session.user) {
-        session.user.id = (token.id ?? token.sub) as string;
-        session.user.role = (token.role ?? "ADMIN") as string;
-      }
-      return session;
-    },
-  },
-
-  pages: {
-    signIn: "/login",
-  },
-
-  session: {
-    strategy: "jwt",
-    // Sessions expire after 8 hours — appropriate for an admin panel
-    maxAge: 8 * 60 * 60,
-  },
 });
